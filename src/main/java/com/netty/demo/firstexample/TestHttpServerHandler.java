@@ -55,6 +55,44 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
             ctx.writeAndFlush(response);
 
         }
+    }
 
+    /**
+     * 处理顺序如下：
+     * handlerAdded
+     * channelRegistered
+     * channelActive
+     * 请求方法名:GET（channelRead0）
+     * （下面的表示的是断开连接后）
+     * 1.如果是使用curl ：连接会立刻关闭
+     * 2.如果是浏览器访问，http1.0：它是短连接，会立刻关闭。http1.1，是长连接，连接保持一段时间
+     * channelInactive
+     * channelUnregistered
+     *
+     * @param ctx
+     * @throws Exception
+     */
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelActive");
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelRegistered");
+        super.channelRegistered(ctx);
+    }
+
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("handlerAdded");
+        super.handlerAdded(ctx);
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channelUnregistered");
+        super.channelUnregistered(ctx);
     }
 }

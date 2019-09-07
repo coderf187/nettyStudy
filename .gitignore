@@ -1,0 +1,9 @@
+.idea
+.gradle
+target
+*.iml
+logs
+*.log
+crawler
+images
+/framework-urm/urm-web/src/docs
